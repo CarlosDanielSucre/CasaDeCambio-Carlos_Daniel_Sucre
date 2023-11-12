@@ -8,20 +8,69 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-
+    <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">   
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+        }
+        .navbar{
+            margin-top: 10px;
+            background-color: rgb(14, 7, 56);
+            font-family: 'Open Sans', sans-serif;
+            color: white;
+            padding-left: 60%;
+        }
+        .titulo{
+            margin: 120px 0 0 6px;
+        }
+        .container{
+            margin: 10px 0px 0px 6px;
+            padding-bottom: 10px;
+            background-color: aliceblue;
+            border: 1px solid rgb(197, 203, 209);
+            border-radius: 5px;
+            
+        }
+        .resultado{
+            height: 200px;
+            width: 300px;
+            background-color: aliceblue;
+            margin-top: 178px;
+            border: 1px solid rgb(197, 203, 209);
+            border-radius: 5px;
+        }
+        .form-floating{
+            margin-top: 7px;
+            margin-bottom: 30px;
+        }
+        #origem{
+            margin-left: 1%;
+        }
+        #valor{
+            margin-left: 14%;
+        }
+        #destino{
+            margin-left: 30%;
+        }
+        #valorInput{
+            border: 1px solid rgb(197, 203, 209);
+            border-radius: 5px;
+        }
+        .btn{
+            height: 50%;
+            background-color: rgb(47, 42, 71);
+        }
+    </style>
 </head>
 <body class="bg-gradient-secundary">
     <header>
-        <div class="navbar fixed-top">
-            
+        <div class="navbar fixed-top">            
                 <h1 class="text-center">Casa de Cambio</h1>
-        </div>
-    
-        
+        </div>            
     </header>
 
     <section>
@@ -63,6 +112,81 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="js/script.js"></script>
+    <script>
+        //CRIAR A LISTA DE OPTIONS PARA O USUARIO SELECCIONAR O TIPO DE MOEDA
+
+fetch("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas?$top=100&$format=json&$select=simbolo,nomeFormatado,tipoMoeda")
+.then(respuestaApi=>respuestaApi.json())
+.then(dadosJson =>{
+    for (const i in dadosJson.value) {
+        let nomeMoeda = dadosJson.value[i].nomeFormatado
+        let simboloMoeda = dadosJson.value[i].simbolo
+
+        listarMoedasOrigem(nomeMoeda,simboloMoeda)
+        listarMoedasDestino(nomeMoeda,simboloMoeda)
+    }
+    
+})
+
+function listarMoedasOrigem(nome, simbolo){
+    let mensagem = `${nome} (${simbolo}) `
+    let listaOrigem = document.getElementById("listaOrigem")
+    let novaOption = document.createElement('option')
+    novaOption.value = simbolo
+    novaOption.innerHTML = mensagem
+    listaOrigem.appendChild(novaOption)
+
+}
+
+function listarMoedasDestino(nome, simbolo){
+    let mensagem = `${nome} (${simbolo}) `
+    let listaDestino = document.getElementById("listaDestino")
+    let novaOption = document.createElement('option')
+    novaOption.value = simbolo
+    novaOption.innerHTML = mensagem
+    listaDestino.appendChild(novaOption)
+
+}
+
+// FAZER A CONVERSÃO DE MOEDAS
+
+async function converter(){
+    let selectorOrigem = document.getElementById('listaOrigem')
+    let selectorDestino = document.getElementById("listaDestino")
+    let valorMoedaOrigem = await valorMoeda(selectorOrigem.value)
+    valorMoedaOrigem = valorMoedaOrigem.cotacaoCompra
+    let valorMoedaDestino = await valorMoeda(selectorDestino.value)
+    valorMoedaDestino = valorMoedaDestino.cotacaoVenda
+    
+    mostrarResultado(valorMoedaOrigem, valorMoedaDestino)
+}
+
+async function valorMoeda(simboloDaMoeda){
+
+    let solic = await fetch(`https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)?@moeda='${simboloDaMoeda}'&@dataCotacao='${'11-09-2023'}'&$top=100&$format=json&$select=cotacaoCompra,cotacaoVenda`)
+    solic = await solic.json()
+    solic = await solic.value
+    solic = await solic[solic.length-1]
+    return solic
+}
+
+function dataHoje(){
+    let data = new Date
+    let ano = data.getFullYear()
+    let mes = data.getMonth()+1
+    let diaS = data.getDate()
+
+    if(diaS < 10){
+        var dia = `0${diaS}`
+    }else{
+        dia = diaS
+    }
+    return `${mes}-${dia}-${ano}`
+      
+}
+function mostrarResultado(moedaCompra,moedaVenda){
+    console.log(moedaCompra,moedaVenda)
+}
+    </script>
 </body>
 </html>
