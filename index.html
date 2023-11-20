@@ -1,76 +1,91 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Casa de Cambio</title>
-    
+
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">   
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <style>
-        body{
+        body {
             display: flex;
             justify-content: center;
         }
-        .navbar{
+
+        .navbar {
             margin-top: 10px;
             background-color: rgb(14, 7, 56);
             font-family: 'Open Sans', sans-serif;
             color: white;
             padding-left: 60%;
         }
-        .titulo{
+
+        .titulo {
             margin: 120px 0 0 6px;
         }
-        .container{
-            margin: 10px 0px 0px 6px;
+
+        .container {
+            width: 1000px;
+            margin: 10px 20px 20px 6px;
             padding-bottom: 10px;
             background-color: aliceblue;
             border: 1px solid rgb(197, 203, 209);
             border-radius: 5px;
-            
+
         }
-        .resultado{
+
+        .resultado {
             height: 200px;
-            width: 300px;
+            width: 200px;
             background-color: aliceblue;
             margin-top: 178px;
             border: 1px solid rgb(197, 203, 209);
             border-radius: 5px;
+            margin-right: 20px;
         }
-        .form-floating{
+
+        .form-floating {
             margin-top: 7px;
             margin-bottom: 30px;
         }
-        #origem{
+
+        #origem {
             margin-left: 1%;
         }
-        #valor{
+
+        #valor {
             margin-left: 14%;
         }
-        #destino{
+
+        #destino {
             margin-left: 30%;
         }
-        #valorInput{
+
+        #valorInput {
             border: 1px solid rgb(197, 203, 209);
             border-radius: 5px;
         }
-        .btn{
+
+        .btn {
             height: 50%;
             background-color: rgb(47, 42, 71);
         }
     </style>
 </head>
+
 <body class="bg-gradient-secundary">
     <header>
-        <div class="navbar fixed-top">            
-                <h1 class="text-center">Casa de Cambio</h1>
-        </div>            
+        <div class="navbar fixed-top">
+            <h1 class="text-center">Casa de Cambio</h1>
+        </div>
     </header>
 
     <section>
@@ -78,115 +93,154 @@
             <h1>Conversor de Moedas</h1>
         </div>
         <div class="container -sm row" id="container">
-            <div class="header-container">                
+            <div class="header-container">
                 <label for="floatingSelect" class="top" id="origem"><strong>Moeda de Origem</strong></label>
                 <label for="floatingSelect" id="valor"><strong>Valor</strong></label>
-                <label for="floatingSelect" class="top" id="destino"><strong>Moeda de Destino</strong></label>                
+                <label for="floatingSelect" class="top" id="destino"><strong>Moeda de Destino</strong></label>
             </div>
-            
-            <div class="form-floating col">                
+
+            <div class="form-floating col">
                 <select class="form-select" id="listaOrigem" aria-label="Floating label select example">
                     <option value="BRL">Real brasileiro (BRL)</option>
-                </select>    
+                </select>
             </div>
-            
-            <input type="number" name="" id="valorInput" class="form-floating col"  aria-label="Username" aria-describedby="addon-wrapping">
+
+            <input type="number" name="" id="valorInput" class="form-floating col" aria-label="Username"
+                aria-describedby="addon-wrapping" step="0.01">
 
             <div class="form-floating col">
                 <select class="form-select" id="listaDestino" aria-label="Floating label select example">
                     <option value="BRL">Real brasileiro (BRL)</option>
                 </select>
-                
+
             </div>
 
             <button type="button" class="btn btn-primary" id="btConverter" onclick="converter()">Converter</button>
-        </div>        
+        </div>
     </section>
 
-    <div class="resultado">
-        <label for="floatingSelect" class="result">Resultado</label>    
+    <div class="resultado" id="resultado">
+        <div><strong>Resultado</strong></div>
+
     </div>
 
-     <!-- script do js -->
-     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- script do js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
     <script>
+        let exibirResultado = document.createElement("div")
+        let valor = document.getElementById("valorInput")
         //CRIAR A LISTA DE OPTIONS PARA O USUARIO SELECCIONAR O TIPO DE MOEDA
 
-fetch("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas?$top=100&$format=json&$select=simbolo,nomeFormatado,tipoMoeda")
-.then(respuestaApi=>respuestaApi.json())
-.then(dadosJson =>{
-    for (const i in dadosJson.value) {
-        let nomeMoeda = dadosJson.value[i].nomeFormatado
-        let simboloMoeda = dadosJson.value[i].simbolo
+        fetch("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas?$top=100&$format=json&$select=simbolo,nomeFormatado,tipoMoeda")
+            .then(respuestaApi => respuestaApi.json())
+            .then(dadosJson => {
+                for (let i in dadosJson.value) {
+                    let nomeMoeda = dadosJson.value[i].nomeFormatado
+                    let simboloMoeda = dadosJson.value[i].simbolo
 
-        listarMoedasOrigem(nomeMoeda,simboloMoeda)
-        listarMoedasDestino(nomeMoeda,simboloMoeda)
-    }
-    
-})
+                    listarMoedasOrigem(nomeMoeda, simboloMoeda)
+                    listarMoedasDestino(nomeMoeda, simboloMoeda)
+                }
 
-function listarMoedasOrigem(nome, simbolo){
-    let mensagem = `${nome} (${simbolo}) `
-    let listaOrigem = document.getElementById("listaOrigem")
-    let novaOption = document.createElement('option')
-    novaOption.value = simbolo
-    novaOption.innerHTML = mensagem
-    listaOrigem.appendChild(novaOption)
+            })
 
-}
+        function listarMoedasOrigem(nome, simbolo) {
+            let mensagem = `${nome} (${simbolo}) `
+            let listaOrigem = document.getElementById("listaOrigem")
+            let novaOption = document.createElement('option')
+            novaOption.value = simbolo
+            novaOption.innerHTML = mensagem
+            listaOrigem.appendChild(novaOption)
 
-function listarMoedasDestino(nome, simbolo){
-    let mensagem = `${nome} (${simbolo}) `
-    let listaDestino = document.getElementById("listaDestino")
-    let novaOption = document.createElement('option')
-    novaOption.value = simbolo
-    novaOption.innerHTML = mensagem
-    listaDestino.appendChild(novaOption)
+        }
 
-}
+        function listarMoedasDestino(nome, simbolo) {
+            let mensagem = `${nome} (${simbolo}) `
+            let listaDestino = document.getElementById("listaDestino")
+            let novaOption = document.createElement('option')
+            novaOption.value = simbolo
+            novaOption.innerHTML = mensagem
+            listaDestino.appendChild(novaOption)
 
-// FAZER A CONVERSÃO DE MOEDAS
+        }
 
-async function converter(){
-    let selectorOrigem = document.getElementById('listaOrigem')
-    let selectorDestino = document.getElementById("listaDestino")
-    let valorMoedaOrigem = await valorMoeda(selectorOrigem.value)
-    valorMoedaOrigem = valorMoedaOrigem.cotacaoCompra
-    let valorMoedaDestino = await valorMoeda(selectorDestino.value)
-    valorMoedaDestino = valorMoedaDestino.cotacaoVenda
-    
-    mostrarResultado(valorMoedaOrigem, valorMoedaDestino)
-}
+        // FAZER A CONVERSÃO DE MOEDAS
 
-async function valorMoeda(simboloDaMoeda){
+        async function converter() {
+            let selectorOrigem = document.getElementById('listaOrigem')
+            let selectorDestino = document.getElementById("listaDestino")
+            if (selectorOrigem.value == "BRL" || selectorDestino.value == "BRL") {
+                if (selectorOrigem.value == "BRL" && selectorDestino.value == "BRL") {
+                    alert("Seleccione o nome da Moeda Destino")
+                } else {
+                    if (selectorOrigem.value == "BRL") {
+                        let valorDestino = await valorMoeda(selectorDestino.value)
+                        valorDestino = valorDestino.cotacaoVenda
+                        valorDestino = valor.value / valorDestino
+                        console.log(valorDestino)
+                        mostrarResultadoBRL(valorDestino, "BRL", selectorDestino.value)
 
-    let solic = await fetch(`https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)?@moeda='${simboloDaMoeda}'&@dataCotacao='${'11-09-2023'}'&$top=100&$format=json&$select=cotacaoCompra,cotacaoVenda`)
-    solic = await solic.json()
-    solic = await solic.value
-    solic = await solic[solic.length-1]
-    return solic
-}
+                    } else if (selectorDestino.value == "BRL") {
+                        let valorOrigem = await valorMoeda(selectorOrigem.value)
+                        valorOrigem = valorOrigem.cotacaoCompra
+                        valorOrigem = valorOrigem * valor.value
+                        mostrarResultadoBRL(valorOrigem, selectorOrigem.value, "BRL")
+                    }
+                }
+            } else {
+                let valorMoedaOrigem = await valorMoeda(selectorOrigem.value)
+                valorMoedaOrigem = valorMoedaOrigem.cotacaoCompra
+                let valorMoedaDestino = await valorMoeda(selectorDestino.value)
+                valorMoedaDestino = valorMoedaDestino.cotacaoVenda
 
-function dataHoje(){
-    let data = new Date
-    let ano = data.getFullYear()
-    let mes = data.getMonth()+1
-    let diaS = data.getDate()
+                mostrarResultado(valorMoedaOrigem, valorMoedaDestino, selectorOrigem.value, selectorDestino.value)
+            }
+        }
 
-    if(diaS < 10){
-        var dia = `0${diaS}`
-    }else{
-        dia = diaS
-    }
-    return `${mes}-${dia}-${ano}`
-      
-}
-function mostrarResultado(moedaCompra,moedaVenda){
-    console.log(moedaCompra,moedaVenda)
-}
+        async function valorMoeda(simboloDaMoeda) {
+
+            let solic = await fetch(`https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)?@moeda='${simboloDaMoeda}'&@dataCotacao='${'11-09-2023'}'&$top=100&$format=json&$select=cotacaoCompra,cotacaoVenda`)
+            solic = await solic.json()
+            solic = await solic.value
+            solic = await solic[solic.length - 1]
+            return solic
+        }
+
+        function dataHoje() {
+            let data = new Date
+            let ano = data.getFullYear()
+            let mes = data.getMonth() + 1
+            let diaS = data.getDate()
+
+            if (diaS < 10) {
+                var dia = `0${diaS}`
+            } else {
+                dia = diaS
+            }
+            return `${mes}-${dia}-${ano}`
+
+        }
+        function mostrarResultado(moedaCompra, moedaVenda, simboloCompra, simbolovenda) {
+            let totalVenda = valor.value * moedaCompra
+            let totalCompra = totalVenda / moedaVenda
+            let divResultado = document.getElementById("resultado")
+            exibirResultado.innerHTML = `${valor.value}(${simboloCompra})<br>Equivale a ${totalCompra}(${simbolovenda})`
+            console.log(moedaCompra, moedaVenda)
+            console.log(`valor total venda ${totalVenda}`)
+
+            divResultado.appendChild(exibirResultado)
+        }
+        function mostrarResultadoBRL(valorTotal, moedaOrigem, moedaDestino) {
+            let divResultado = document.getElementById("resultado")
+            exibirResultado.innerHTML = `${valor.value}(${moedaOrigem})<br>Equivale a:<br> ${valorTotal}(${moedaDestino})`
+            divResultado.appendChild(exibirResultado)
+        }
     </script>
 </body>
+
 </html>
